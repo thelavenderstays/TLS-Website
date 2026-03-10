@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Lavender Stays - Your Perfect Escape</title>
+    <meta name="description" content="The Lavender Stays is a beautiful farm house with 5 rooms, a large swimming pool, and indoor gaming set in lush greenery, just 1H 20m from Mumbai.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="custom-cursor" class="custom-cursor">
+        <img src="flower_newest.png" alt="Lavender Cursor" style="width: 120px; height: 120px; object-fit: contain;">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo-link">
+                <img src="logo.jpg" alt="The Lavender Stays" class="nav-logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#resort">The Resort</a></li>
+                <li><a href="#gallery">Gallery</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flower Trails Container -->
+    <div id="flower-container"></div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <img src="logo.jpg" alt="The Lavender Stays Logo" class="hero-logo">
+            <h1>Escape to Tranquility.</h1>
+            <p class="hero-subtitle">Experience our 5 neat and clean room farmhouse amidst lush greenery.</p>
+            <div class="hero-highlights">
+                <span class="badge">Large Swimming Pool</span>
+                <span class="badge">Indoor Games</span>
+                <span class="badge">Nature Retreat</span>
+            </div>
+            <a href="#resort" class="btn primary-btn mt-4">Discover the Resort</a>
+        </div>
+        
+        <!-- Animated Lavender Graphic -->
+        <svg class="hero-lavender-graphic" width="120" height="200" viewBox="0 0 100 150">
+            <path d="M50 150 C45 100, 30 80, 50 30" stroke="#4B0082" stroke-width="3" fill="none"/>
+            <circle cx="50" cy="30" r="4" fill="#9370DB"/>
+            <circle cx="45" cy="40" r="4" fill="#9370DB"/>
+            <circle cx="55" cy="50" r="4" fill="#9370DB"/>
+            <circle cx="42" cy="60" r="4" fill="#9370DB"/>
+            <circle cx="53" cy="70" r="4" fill="#9370DB"/>
+        </svg>
+    </section>
+
+    <!-- Resort Details Section -->
+    <section id="resort" class="section resort-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Welcome to The Lavender Stays</h2>
+                <div class="divider"></div>
+            </div>
+            
+            <div class="resort-grid">
+                <div class="resort-card">
+                    <div class="icon-wrapper">
+                        <!-- Bed Icon -->
+                        <svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M20 10V7A2 2 0 0 0 18 5H6A2 2 0 0 0 4 7V10A2 2 0 0 0 2 12V20H4V17H20V20H22V12A2 2 0 0 0 20 10ZM14 7H18V10H14ZM6 7H10V10H6ZM4 12H20V15H4Z"/></svg>
+                    </div>
+                    <h3>5 Premium Rooms</h3>
+                    <p>Neat, clean, and spacious rooms offering the utmost comfort for your entire family or group.</p>
+                </div>
+                
+                <div class="resort-card">
+                    <div class="icon-wrapper">
+                        <!-- Pool Icon -->
+                        <svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M22 21C22 21 20 23 16 23C12 23 10 21 8 21C6 21 4 23 0 23V21C4 21 6 19 8 19C10 19 12 21 16 21C20 21 22 19 22 19M22 17C22 17 20 19 16 19C12 19 10 17 8 17C6 17 4 19 0 19V17C4 17 6 15 8 15C10 15 12 17 16 17C20 17 22 15 22 15M2 13V3C2 2.45 2.45 2 3 2H5C5.55 2 6 2.45 6 3V13H2M22 12.35L20.61 10.96C20.22 10.57 19.59 10.57 19.2 10.96L17.78 12.37L15.36 9.95C14.97 9.56 14.34 9.56 13.95 9.95L12 11.89L9.41 9.31C9.02 8.92 8.39 8.92 8 9.31L7.5 9.8V13.5H22V12.35Z"/></svg>
+                    </div>
+                    <h3>Big Swimming Pool</h3>
+                    <p>Dive into relaxation! Our expansive swimming pool features dedicated sections for kids and adults.</p>
+                </div>
+
+                <div class="resort-card">
+                    <div class="icon-wrapper">
+                        <!-- Games Icon -->
+                        <svg viewBox="0 0 24 24" width="40" height="40"><path fill="currentColor" d="M21.58 16.09L13.59 8.1C14.34 6.84 14.28 5.16 13.34 4C12.31 2.76 10.45 2.44 9.04 3.2L10.96 5.12L8.84 7.24L6.5 4.9C5.35 6 5.25 7.79 6.22 9.07C7.26 10.46 9.29 10.66 10.58 9.58L18.57 17.57C18.96 17.96 19.6 17.96 19.97 17.57L21.57 15.97C21.96 15.6 21.96 14.96 21.58 16.09Z M4 11C2.9 11 2 11.9 2 13C2 14.1 2.9 15 4 15C5.1 15 6 14.1 6 13C6 11.9 5.1 11 4 11M8 15C6.9 15 6 15.9 6 17C6 18.1 6.9 19 8 19C9.1 19 10 18.1 10 17C10 15.9 9.1 15 8 15M12 19C10.9 19 10 19.9 10 21C10 22.1 10.9 23 12 23C13.1 23 14 22.1 14 21C14 19.9 13.1 19 12 19Z"/></svg>
+                    </div>
+                    <h3>Indoor Gaming</h3>
+                    <p>Fun for everyone with Cards, Uno, Foosball, Pool Table, and Table Tennis.</p>
+                </div>
+            </div>
+
+            <div class="audiences">
+                <h3>The Perfect Destination For</h3>
+                <div class="tags">
+                    <span>Family Trips</span>
+                    <span>Family Get-Togethers</span>
+                    <span>One Day Picnic</span>
+                    <span>Corporate Events (up to 100)</span>
+                    <span>Bachelors Trip</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location Section -->
+    <section id="location" class="section location-section bg-light-lavender">
+        <div class="container">
+            <div class="location-wrapper">
+                <div class="location-content">
+                    <div class="section-title left">
+                        <h2>Prime Location</h2>
+                        <div class="divider"></div>
+                    </div>
+                    <p class="lead">Nestled in the greenery, easily accessible from the city but far from the noise.</p>
+                    <ul class="distance-list">
+                        <li><strong>1H 20 Minutes</strong> from Mumbai</li>
+                        <li><strong>40 Minutes</strong> from Navi Mumbai</li>
+                        <li><strong>2 Minutes</strong> from Karjat Naka</li>
+                        <li><strong>Near ND Studio</strong> - Prime landmark</li>
+                    </ul>
+                </div>
+                <div class="location-graphic">
+                    <div class="map-container">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=18.9018522,73.2609965&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="section gallery-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Beautiful Spaces</h2>
+                <div class="divider"></div>
+            </div>
+            <p class="text-center mb-4">Hover over the images to feel the breeze move through the gallery.</p>
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- Gallery images from user uploads -->
+                <div class="gallery-item" data-speed="-2">
+                    <img src="gallery1.jpg" alt="Gallery Image 1">
+                </div>
+                <div class="gallery-item" data-speed="1.5">
+                    <img src="gallery2.jpg" alt="Gallery Image 2">
+                </div>
+                <div class="gallery-item" data-speed="-1">
+                    <img src="gallery3.jpg" alt="Gallery Image 3">
+                </div>
+                <div class="gallery-item" data-speed="2">
+                    <img src="gallery4.jpg" alt="Gallery Image 4">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section id="events" class="section events-section bg-purple-gradient text-white">
+        <div class="container">
+            <div class="section-title light">
+                <h2>Host Your Events With Us</h2>
+                <div class="divider bg-white"></div>
+            </div>
+            <div class="events-content text-center">
+                <p class="lead text-white">Whether it's a corporate retreat or a family celebration, The Lavender Stays provides the perfect backdrop.</p>
+                <div class="event-stats">
+                    <div class="stat">
+                        <div class="stat-number">100+</div>
+                        <div class="stat-label">Guest Capacity</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">Custom</div>
+                        <div class="stat-label">Catering Options</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">Infinite</div>
+                        <div class="stat-label">Memories</div>
+                    </div>
+                </div>
+                <a href="#contact" class="btn secondary-btn mt-4">Plan Your Event</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Get In Touch</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>Contact Information</h3>
+                    <p>We'd love to hear from you. Reach out to book your stay or inquire about events.</p>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z"/></svg>
+                        <span>The Lavender Stays, H.No 598, At:- Hatnoli, Near ND Studio<br>Chowk Karjat Road, Po:- Chowk, Tal :- Khalapur, Dist:- Raigad, Pin :- 410206</span>
+                    </div>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M20 4H4C2.9 4 2 4.9 2 6V18C2 19.1 2.9 20 4 20H20C21.1 20 22 19.1 22 18V6C22 4.9 21.1 4 20 4ZM20 18H4V8L12 13L20 8V18ZM12 11L4 6H20L12 11Z"/></svg>
+                        <span>thelavenderstays@gmail.com<br>info@thelavenderstays.com</span>
+                    </div>
+                    <div class="info-item">
+                        <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M6.62 10.79C8.06 13.62 10.38 15.94 13.21 17.38L15.41 15.18C15.69 14.9 16.08 14.82 16.43 14.93C17.55 15.3 18.75 15.5 20 15.5C20.55 15.5 21 15.95 21 16.5V20C21 20.55 20.55 21 20 21C10.61 21 3 13.39 3 4C3 3.45 3.45 3 4 3H7.5C8.05 3 8.5 3.45 8.5 4C8.5 5.25 8.7 6.45 9.07 7.57C9.18 7.92 9.1 8.31 8.82 8.59L6.62 10.79Z"/></svg>
+                        <span>+91 98765 43210</span>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <input type="text" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <select required>
+                                <option value="" disabled selected>Event Type / Stay</option>
+                                <option value="family">Family Trip</option>
+                                <option value="corporate">Corporate Event</option>
+                                <option value="picnic">One Day Picnic</option>
+                                <option value="bachelor">Bachelors Trip</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea placeholder="Your Message" rows="4" required></textarea>
+                        </div>
+                        <button type="submit" class="btn primary-btn w-100">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content text-center">
+            <h3 class="footer-logo">The Lavender Stays</h3>
+            <p>Your perfect tranquil escape in the heart of nature.</p>
+            <div class="socials mt-4 mb-4">
+                <a href="#">Fb</a>
+                <a href="#">Ig</a>
+                <a href="#">Tw</a>
+            </div>
+            <p class="copyright">&copy; 2026 The Lavender Stays. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img" src="">
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
