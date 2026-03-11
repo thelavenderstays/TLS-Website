@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // 0. Scroll Animations (Intersection Observer)
+    const animateElements = document.querySelectorAll('.fade-up, .fade-in');
+    const observerOptions = {
+        root: null,
+        rootMargin: '0px',
+        threshold: 0.15 // Trigger when 15% of the element is visible
+    };
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                observer.unobserve(entry.target); 
+            }
+        });
+    }, observerOptions);
+    animateElements.forEach(el => observer.observe(el));
+
     // 1. Navigation Scroll Effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
