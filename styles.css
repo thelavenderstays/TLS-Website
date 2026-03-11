@@ -696,6 +696,55 @@ p.lead {
 }
 
 /* ===========================
+   Social Media Section
+   =========================== */
+.social-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+}
+
+.social-card {
+    display: flex;
+    align-items: center;
+    background: var(--white);
+    padding: 1.5rem 3rem;
+    border-radius: 50px;
+    text-decoration: none;
+    color: var(--text-dark);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid transparent;
+}
+
+.social-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(147, 112, 219, 0.2);
+    border-color: var(--lavender-200);
+}
+
+.social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #E1306C; /* Instagram brand color */
+    margin-right: 1.5rem;
+}
+
+.social-details h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    color: var(--indigo);
+}
+
+.social-details span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* ===========================
    Footer
    =========================== */
 footer {
