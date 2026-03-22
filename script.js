@@ -331,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Booking Form Submission directly to Google Sheets
     const stayBookingForm = document.getElementById('stay-booking-form');
     // Important: Replace this URL with your actual Google Apps Script Web App URL
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwESMeSCDjndTIrveZAAqv0ZEI24wSo1FX8gJB9l1BaHFTgB_fFensXRYQByIKzSrvj/exec';
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbynOqmsmgyR-_h-7Wej27V43qCatblJVyv78Go1GwKILk8MfuNa-UsXrAoB7migjaA/exec';
 
     if (stayBookingForm) {
         stayBookingForm.addEventListener('submit', (e) => {
