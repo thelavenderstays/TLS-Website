@@ -296,29 +296,33 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (checkInInput && checkOutInput) {
         const today = new Date();
-        const maxDate = new Date();
-        maxDate.setMonth(today.getMonth() + 6);
-        
-        // Return YYYY-MM-DD for native date input bounds
-        const formatDateForInput = (date) => date.toISOString().split('T')[0];
-        
-        const minDateStr = formatDateForInput(today);
-        const maxDateStr = formatDateForInput(maxDate);
+        // Flatpickr setup to force DD/MM/YYYY and maintain restrictions safely across all browsers
+        const checkOutPicker = flatpickr(checkOutInput, {
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            maxDate: new Date().fp_incr(180), // 180 days from now
+            disableMobile: true // Forces the rich flatpickr UI even on mobile
+        });
 
-        checkInInput.min = minDateStr;
-        checkInInput.max = maxDateStr;
-        
-        // Default check-out min to today as well
-        checkOutInput.min = minDateStr;
-        checkOutInput.max = maxDateStr;
-
-        // Automatically push Check-Out min date if Check-In is selected
-        checkInInput.addEventListener('change', () => {
-            if (checkInInput.value) {
-                checkOutInput.min = checkInInput.value;
-                // If the current checkout is now before the newly selected check-in, clear it
-                if (checkOutInput.value && checkOutInput.value < checkInInput.value) {
-                    checkOutInput.value = '';
+        flatpickr(checkInInput, {
+            dateFormat: "d/m/Y",
+            minDate: "today",
+            maxDate: new Date().fp_incr(180),
+            disableMobile: true,
+            onChange: function(selectedDates, dateStr, instance) {
+                // Dynamically update checkout minDate when checkin is selected
+                checkOutPicker.set('minDate', dateStr);
+                
+                // If the selected checkIn is after the current checkOut, clear checkOut
+                const currentCheckOutStr = checkOutInput.value;
+                if (currentCheckOutStr) {
+                    const checkInDate = selectedDates[0];
+                    const outParts = currentCheckOutStr.split('/');
+                    const outDate = new Date(outParts[2], outParts[1] - 1, outParts[0]);
+                    
+                    if (checkInDate > outDate) {
+                        checkOutPicker.clear();
+                    }
                 }
             }
         });
@@ -340,18 +344,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 1. Gather basic input fields
             const formData = new FormData(stayBookingForm);
-
-            // Format constraints: Ensure dates arrive as DD/MM/YYYY inside Google Sheets
-            const rawCheckIn = formData.get('checkIn');
-            const rawCheckOut = formData.get('checkOut');
-            if (rawCheckIn) {
-                const parts = rawCheckIn.split('-'); // input[type="date"] is always YYYY-MM-DD
-                if (parts.length === 3) formData.set('checkIn', `${parts[2]}/${parts[1]}/${parts[0]}`);
-            }
-            if (rawCheckOut) {
-                const parts = rawCheckOut.split('-');
-                if (parts.length === 3) formData.set('checkOut', `${parts[2]}/${parts[1]}/${parts[0]}`);
-            }
+            // Dates are already formatted as DD/MM/YYYY natively by Flatpickr!
 
             // 2. Serialize the complex Rooms UI into a single clear text string
             let roomDetailsText = '';
