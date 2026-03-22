@@ -408,16 +408,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     const totalPeople = totalAdults + totalChildren;
 
-                    const confirmationMessage = `Dear ${custName},\nThank you for your enquiry.\nWe will get back to you with the details in sometime.\n\nYour enquiry summary is:\nDate: ${cinStr} to ${coutStr}\nTotal no of nights: ${totalNights}\nTotal No of rooms: ${numRooms}\nTotal number of people: ${totalPeople} (${totalAdults} Adults, ${totalChildren} Children)`;
+                    const successHtml = `
+                        <div style="text-align: center; margin-bottom: 20px;">
+                            <h3 style="color: var(--lavender-dark);">Booking Enquiry Sent! ✓</h3>
+                        </div>
+                        <p style="font-size: 1.1rem; color: var(--text-dark);">Dear <strong>${custName}</strong>,</p>
+                        <p style="color: var(--text-light);">Thank you for your enquiry. We will get back to you with the details in sometime.</p>
+                        <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--lavender-200);">
+                        <p style="color: var(--text-dark); margin-bottom: 10px;"><strong>Your enquiry summary is:</strong></p>
+                        <ul style="list-style: none; padding: 0; line-height: 2; margin-bottom: 20px; color: var(--text-light);">
+                            <li><strong style="color: var(--text-dark);">Date:</strong> ${cinStr} to ${coutStr}</li>
+                            <li><strong style="color: var(--text-dark);">Total no of nights:</strong> ${totalNights}</li>
+                            <li><strong style="color: var(--text-dark);">Total No of rooms:</strong> ${numRooms}</li>
+                            <li><strong style="color: var(--text-dark);">Total number of people:</strong> ${totalPeople} (${totalAdults} Adults, ${totalChildren} Children)</li>
+                        </ul>
+                        <button id="book-another-btn" class="btn primary-btn" style="width: 100%; height: 50px; cursor: pointer;">Submit Another Enquiry</button>
+                    `;
 
-                    alert(confirmationMessage);
+                    const successBox = document.getElementById('booking-success-message');
+                    if (successBox) {
+                        successBox.innerHTML = successHtml;
+                        successBox.style.display = 'block';
+                        stayBookingForm.style.display = 'none';
 
-                    stayBookingForm.reset();
-                    // Reset rooms UI back to 1 room
-                    roomsContainer.innerHTML = '';
-                    roomCount = 0;
-                    if (addRoomBtn) addRoomBtn.style.display = 'block';
-                    addRoomBtn.click(); // Programmatically add the first room back
+                        // Setup Reset Button
+                        document.getElementById('book-another-btn').addEventListener('click', () => {
+                            successBox.style.display = 'none';
+                            stayBookingForm.style.display = 'flex';
+                            stayBookingForm.reset();
+                            roomsContainer.innerHTML = '';
+                            roomCount = 0;
+                            if (addRoomBtn) addRoomBtn.style.display = 'block';
+                            addRoomBtn.click();
+                        });
+                    } else {
+                        // Fallback highly unlikely
+                        alert(`Dear ${custName},\nThank you for your enquiry.\nWe will get back to you with the details in sometime.\n\nYour enquiry summary is:\nDate: ${cinStr} to ${coutStr}\nTotal no of nights: ${totalNights}\nTotal No of rooms: ${numRooms}\nTotal number of people: ${totalPeople} (${totalAdults} Adults, ${totalChildren} Children)`);
+                        stayBookingForm.reset();
+                        // Reset rooms UI back to 1 room
+                        roomsContainer.innerHTML = '';
+                        roomCount = 0;
+                        if (addRoomBtn) addRoomBtn.style.display = 'block';
+                        addRoomBtn.click();
+                    }
                 })
                 .catch(error => {
                     console.error('Submission Error:', error);
