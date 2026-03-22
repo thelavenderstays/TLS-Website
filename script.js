@@ -290,6 +290,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // 8. Date Constraints
+    const checkInInput = document.getElementById('checkInInput');
+    const checkOutInput = document.getElementById('checkOutInput');
+    
+    if (checkInInput && checkOutInput) {
+        const today = new Date();
+        const maxDate = new Date();
+        maxDate.setMonth(today.getMonth() + 6);
+        
+        // Return YYYY-MM-DD for native date input bounds
+        const formatDateForInput = (date) => date.toISOString().split('T')[0];
+        
+        const minDateStr = formatDateForInput(today);
+        const maxDateStr = formatDateForInput(maxDate);
+
+        checkInInput.min = minDateStr;
+        checkInInput.max = maxDateStr;
+        
+        // Default check-out min to today as well
+        checkOutInput.min = minDateStr;
+        checkOutInput.max = maxDateStr;
+
+        // Automatically push Check-Out min date if Check-In is selected
+        checkInInput.addEventListener('change', () => {
+            if (checkInInput.value) {
+                checkOutInput.min = checkInInput.value;
+                // If the current checkout is now before the newly selected check-in, clear it
+                if (checkOutInput.value && checkOutInput.value < checkInInput.value) {
+                    checkOutInput.value = '';
+                }
+            }
+        });
+    }
+
     // Handle Booking Form Submission directly to Google Sheets
     const stayBookingForm = document.getElementById('stay-booking-form');
     // Important: Replace this URL with your actual Google Apps Script Web App URL
@@ -306,6 +340,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // 1. Gather basic input fields
             const formData = new FormData(stayBookingForm);
+
+            // Format constraints: Ensure dates arrive as DD/MM/YYYY inside Google Sheets
+            const rawCheckIn = formData.get('checkIn');
+            const rawCheckOut = formData.get('checkOut');
+            if (rawCheckIn) {
+                const parts = rawCheckIn.split('-'); // input[type="date"] is always YYYY-MM-DD
+                if (parts.length === 3) formData.set('checkIn', `${parts[2]}/${parts[1]}/${parts[0]}`);
+            }
+            if (rawCheckOut) {
+                const parts = rawCheckOut.split('-');
+                if (parts.length === 3) formData.set('checkOut', `${parts[2]}/${parts[1]}/${parts[0]}`);
+            }
 
             // 2. Serialize the complex Rooms UI into a single clear text string
             let roomDetailsText = '';
