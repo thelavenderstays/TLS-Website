@@ -724,6 +724,48 @@ p.lead {
 }
 
 /* ===========================
+   Booking Form Bar
+   =========================== */
+.booking-form-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    background: var(--white);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    align-items: flex-end;
+}
+
+.booking-form-bar .form-group {
+    flex: 1 1 180px;
+    margin-bottom: 0;
+}
+
+.booking-form-bar label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--indigo);
+    font-size: 0.95rem;
+}
+
+.booking-form-bar .btn-group {
+    flex: 0 1 200px;
+}
+
+@media (max-width: 900px) {
+    .booking-form-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .booking-form-bar .btn-group {
+        flex: auto;
+        margin-top: 1rem;
+    }
+}
+
+/* ===========================
    Social Media Section
    =========================== */
 .social-cards {
