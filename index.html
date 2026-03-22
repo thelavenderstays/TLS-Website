@@ -227,19 +227,38 @@
                         <label>Check-out</label>
                         <input type="date" required>
                     </div>
-                    <div class="form-group">
-                        <label>Guests</label>
-                        <input type="number" min="1" max="100" placeholder="Number of guests" required>
+                    
+                    <!-- Dynamic Rooms Area -->
+                    <div id="rooms-container" style="flex: 1 1 100%; border-top: 1px solid var(--lavender-200); padding-top: 1rem; margin-top: 0.5rem;">
+                        <div class="room-entry" data-room="1" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; background: #f8f6fc; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--lavender-100);">
+                            <h4 style="flex: 1 1 100%; margin: 0; color: var(--indigo); display: flex; justify-content: space-between; align-items: center;">
+                                <span>Room 1</span>
+                            </h4>
+                            <div class="form-group" style="flex: 1 1 120px;">
+                                <label>Adults</label>
+                                <select class="adults-select" required>
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="flex: 1 1 120px;">
+                                <label>Children</label>
+                                <select class="children-select" required>
+                                    <option value="0" selected>0</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                </select>
+                            </div>
+                            <!-- Age selects injected here by JS -->
+                            <div class="children-ages-container" style="flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 1rem;"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label>Room / Villa</label>
-                        <select required>
-                            <option value="" disabled selected>Select Accommodation</option>
-                            <option value="premium">Premium Room (1-4 Guests)</option>
-                            <option value="villa">Entire Farmhouse (up to 100 Guests)</option>
-                        </select>
+                    <div id="add-room-wrapper" style="flex: 1 1 100%; margin-bottom: 0.5rem;">
+                        <button type="button" id="add-room-btn" style="padding: 0.5rem 1rem; border: 1px dashed var(--indigo); border-radius: 8px; background: transparent; cursor: pointer; color: var(--indigo); font-weight: 600; width: 100%;">+ Add Another Room</button>
                     </div>
-                    <div class="form-group btn-group align-bottom">
+
+                    <div class="form-group btn-group align-bottom" style="flex: 1 1 100%;">
                         <button type="submit" class="btn primary-btn" style="width: 100%; height: 50px;">Check Availability</button>
                     </div>
                 </form>

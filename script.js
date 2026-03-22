@@ -179,4 +179,129 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // 7. Dynamic Room & Guest Selection
+    const roomsContainer = document.getElementById('rooms-container');
+    const addRoomBtn = document.getElementById('add-room-btn');
+    let roomCount = 1;
+    const MAX_ROOMS = 5;
+
+    // Generate Age Select HTML
+    function getAgeSelectHTML(index) {
+        return `
+            <div class="form-group" style="flex: 1 1 120px; animation: fadeIn 0.3s ease;">
+                <label>Child ${index} Age</label>
+                <select required style="height: 100%;">
+                    <option value="" disabled selected>Select Age</option>
+                    <option value="1">1 Year</option>
+                    <option value="2">2 Years</option>
+                    <option value="3">3 Years</option>
+                    <option value="4">4 Years</option>
+                    <option value="5">5 Years</option>
+                    <option value="6">6 Years</option>
+                </select>
+            </div>
+        `;
+    }
+
+    // Handle Children Change
+    function handleChildrenChange(e) {
+        if (!e.target.classList.contains('children-select')) return;
+        
+        const count = parseInt(e.target.value);
+        const roomEntry = e.target.closest('.room-entry');
+        const agesContainer = roomEntry.querySelector('.children-ages-container');
+        
+        agesContainer.innerHTML = ''; // Clear existing
+        
+        for (let i = 1; i <= count; i++) {
+            agesContainer.insertAdjacentHTML('beforeend', getAgeSelectHTML(i));
+        }
+    }
+
+    if (roomsContainer) {
+        // Attach delegated event listener for children selects
+        roomsContainer.addEventListener('change', handleChildrenChange);
+
+        // Handle Remove Room
+        roomsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-room-btn')) {
+                const roomEntry = e.target.closest('.room-entry');
+                roomEntry.remove();
+                roomCount--;
+                
+                // Re-index remaining rooms
+                const entries = roomsContainer.querySelectorAll('.room-entry');
+                entries.forEach((entry, index) => {
+                    const roomNum = index + 1;
+                    entry.dataset.room = roomNum;
+                    entry.querySelector('h4 span').textContent = 'Room ' + roomNum;
+                });
+                
+                if (roomCount < MAX_ROOMS && addRoomBtn) {
+                    addRoomBtn.style.display = 'block';
+                }
+            }
+        });
+    }
+
+    // Handle Add Room
+    if (addRoomBtn && roomsContainer) {
+        addRoomBtn.addEventListener('click', () => {
+            if (roomCount >= MAX_ROOMS) return;
+            
+            roomCount++;
+            
+            const newRoom = document.createElement('div');
+            newRoom.className = 'room-entry';
+            newRoom.dataset.room = roomCount;
+            newRoom.style.cssText = 'display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; background: #f8f6fc; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--lavender-100); animation: fadeIn 0.5s ease;';
+            
+            newRoom.innerHTML = `
+                <h4 style="flex: 1 1 100%; margin: 0; color: var(--indigo); display: flex; justify-content: space-between; align-items: center;">
+                    <span>Room ${roomCount}</span>
+                    <button type="button" class="remove-room-btn" style="background: transparent; border: none; color: #dc3545; cursor: pointer; font-size: 0.9rem; text-decoration: underline;">Remove</button>
+                </h4>
+                <div class="form-group" style="flex: 1 1 120px;">
+                    <label>Adults</label>
+                    <select class="adults-select" required style="height: 100%;">
+                        <option value="1">1</option>
+                        <option value="2" selected>2</option>
+                        <option value="3">3</option>
+                    </select>
+                </div>
+                <div class="form-group" style="flex: 1 1 120px;">
+                    <label>Children</label>
+                    <select class="children-select" required style="height: 100%;">
+                        <option value="0" selected>0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </div>
+                <!-- Age selects injected here by JS -->
+                <div class="children-ages-container" style="flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 1rem;"></div>
+            `;
+            
+            roomsContainer.appendChild(newRoom);
+            
+            if (roomCount >= MAX_ROOMS) {
+                addRoomBtn.style.display = 'none';
+            }
+        });
+    }
+
+    // Prevent default on the new booking form too
+    const stayBookingForm = document.getElementById('stay-booking-form');
+    if (stayBookingForm) {
+        stayBookingForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Your booking inquiry has been submitted! Our team will verify availability and reach out soon.');
+            stayBookingForm.reset();
+            // Reset rooms UI back to 1 room
+            roomsContainer.innerHTML = '';
+            roomCount = 0;
+            if (addRoomBtn) addRoomBtn.style.display = 'block';
+            addRoomBtn.click(); // Programmatically add the first room back
+        });
+    }
 });
