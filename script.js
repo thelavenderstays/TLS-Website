@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                observer.unobserve(entry.target); 
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Trailing Lavender Flowers Effect (Home Page focus, but active on mousemove)
     const flowerContainer = document.getElementById('flower-container');
     const heroSection = document.getElementById('home');
-    
+
     // Simple HTML for the trailing flower using the provided image
     const flowerSvg = `
         <img src="flower_newest.png" alt="" style="width: 100%; height: 100%; object-fit: contain;">
@@ -59,17 +59,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const flower = document.createElement('div');
         flower.className = 'trailing-flower';
         flower.innerHTML = flowerSvg;
-        
+
         // Make the trailing flowers size 150px
         const size = 150;
         const rotation = Math.random() * 360;
-        
+
         flower.style.width = `${size}px`;
         flower.style.height = `${size}px`;
         flower.style.left = `${x}px`;
         flower.style.top = `${y}px`;
         flower.style.transform = `translate(-50%, -50%) rotate(${rotation}deg)`;
-        
+
         flowerContainer.appendChild(flower);
 
         // Animate out
@@ -104,9 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Calculate movement based on speed attribute
             const moveX = percentX * speed * 20; // max 20px movement
             const moveY = percentY * speed * 20;
-            
+
             // Apply a slight 3D rotation based on mouse position
-            const rotateX = -percentY * speed * 5; 
+            const rotateX = -percentY * speed * 5;
             const rotateY = percentX * speed * 5;
 
             item.style.transform = `translate(${moveX}px, ${moveY}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const img = item.querySelector('img');
             // Adding a pointer cursor hint
             item.style.cursor = 'pointer';
-            
+
             item.addEventListener('click', () => {
                 lightbox.style.display = 'flex';
                 lightboxImg.src = img.src;
@@ -207,13 +207,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Handle Children Change
     function handleChildrenChange(e) {
         if (!e.target.classList.contains('children-select')) return;
-        
+
         const count = parseInt(e.target.value);
         const roomEntry = e.target.closest('.room-entry');
         const agesContainer = roomEntry.querySelector('.children-ages-container');
-        
+
         agesContainer.innerHTML = ''; // Clear existing
-        
+
         for (let i = 1; i <= count; i++) {
             agesContainer.insertAdjacentHTML('beforeend', getAgeSelectHTML(i));
         }
@@ -229,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const roomEntry = e.target.closest('.room-entry');
                 roomEntry.remove();
                 roomCount--;
-                
+
                 // Re-index remaining rooms
                 const entries = roomsContainer.querySelectorAll('.room-entry');
                 entries.forEach((entry, index) => {
@@ -237,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     entry.dataset.room = roomNum;
                     entry.querySelector('h4 span').textContent = 'Room ' + roomNum;
                 });
-                
+
                 if (roomCount < MAX_ROOMS && addRoomBtn) {
                     addRoomBtn.style.display = 'block';
                 }
@@ -249,14 +249,14 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addRoomBtn && roomsContainer) {
         addRoomBtn.addEventListener('click', () => {
             if (roomCount >= MAX_ROOMS) return;
-            
+
             roomCount++;
-            
+
             const newRoom = document.createElement('div');
             newRoom.className = 'room-entry';
             newRoom.dataset.room = roomCount;
             newRoom.style.cssText = 'display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; background: #f8f6fc; padding: 1.5rem; border-radius: 8px; border: 1px solid var(--lavender-100); animation: fadeIn 0.5s ease;';
-            
+
             newRoom.innerHTML = `
                 <h4 style="flex: 1 1 100%; margin: 0; color: var(--indigo); display: flex; justify-content: space-between; align-items: center;">
                     <span>Room ${roomCount}</span>
@@ -281,27 +281,88 @@ document.addEventListener('DOMContentLoaded', () => {
                 <!-- Age selects injected here by JS -->
                 <div class="children-ages-container" style="flex: 1 1 100%; display: flex; flex-wrap: wrap; gap: 1rem;"></div>
             `;
-            
+
             roomsContainer.appendChild(newRoom);
-            
+
             if (roomCount >= MAX_ROOMS) {
                 addRoomBtn.style.display = 'none';
             }
         });
     }
 
-    // Prevent default on the new booking form too
+    // Handle Booking Form Submission directly to Google Sheets
     const stayBookingForm = document.getElementById('stay-booking-form');
+    // Important: Replace this URL with your actual Google Apps Script Web App URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGRI2hhmE2QMPPyjM6GLHcfDyjhSJOAY6U-BbJY8gYWKMLaW7_58vW8fGzrTVBUQ/exec';
+
     if (stayBookingForm) {
         stayBookingForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Your booking inquiry has been submitted! Our team will verify availability and reach out soon.');
-            stayBookingForm.reset();
-            // Reset rooms UI back to 1 room
-            roomsContainer.innerHTML = '';
-            roomCount = 0;
-            if (addRoomBtn) addRoomBtn.style.display = 'block';
-            addRoomBtn.click(); // Programmatically add the first room back
+
+            const submitBtn = stayBookingForm.querySelector('button[type="submit"]');
+            const originalBtnText = submitBtn.textContent;
+            submitBtn.textContent = 'Submitting...';
+            submitBtn.disabled = true;
+
+            // 1. Gather basic input fields
+            const formData = new FormData(stayBookingForm);
+
+            // 2. Serialize the complex Rooms UI into a single clear text string
+            let roomDetailsText = '';
+            const roomEntries = roomsContainer.querySelectorAll('.room-entry');
+            roomEntries.forEach((entry) => {
+                const roomNum = entry.dataset.room;
+                const adults = entry.querySelector('.adults-select').value;
+                const children = entry.querySelector('.children-select').value;
+
+                roomDetailsText += `Room ${roomNum}: [${adults} Adults, ${children} Children`;
+
+                if (parseInt(children) > 0) {
+                    const ageSelects = entry.querySelectorAll('.children-ages-container select');
+                    const ages = Array.from(ageSelects).map(s => s.value).join(', ');
+                    roomDetailsText += ` (Ages: ${ages})`;
+                }
+                roomDetailsText += `] | `;
+            });
+
+            // Append the serialized room data to the payload
+            formData.append('roomDetails', roomDetailsText.replace(/ \| $/, '')); // Trim trailing pipe
+            
+            // Convert to URLSearchParams for x-www-form-urlencoded format
+            const params = new URLSearchParams(formData);
+
+            // 3. Send to Google Sheets Web App
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: params
+            })
+                // When using no-cors mode, the response is opaque. We can assume success if the promise resolves.
+                .then(() => {
+                    alert('Your booking inquiry has been submitted! Our team will verify availability and reach out soon.');
+                    stayBookingForm.reset();
+                    // Reset rooms UI back to 1 room
+                    roomsContainer.innerHTML = '';
+                    roomCount = 0;
+                    if (addRoomBtn) addRoomBtn.style.display = 'block';
+                    addRoomBtn.click(); // Programmatically add the first room back
+                })
+                .catch(error => {
+                    console.error('Submission Error:', error);
+                    alert('There was an issue testing the network connection, but your booking inquiry may have routed safely. Please try again later.');
+                    stayBookingForm.reset();
+                    roomsContainer.innerHTML = '';
+                    roomCount = 0;
+                    if (addRoomBtn) addRoomBtn.style.display = 'block';
+                    addRoomBtn.click();
+                })
+                .finally(() => {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                });
         });
     }
 });
