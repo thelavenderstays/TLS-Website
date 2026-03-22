@@ -381,7 +381,37 @@ document.addEventListener('DOMContentLoaded', () => {
             })
                 // When using no-cors mode, the response is opaque. We can assume success if the promise resolves.
                 .then(() => {
-                    alert('Your booking inquiry has been submitted! Our team will verify availability and reach out soon.');
+                    // Calculate details for dynamic notification popup
+                    const custName = formData.get('customerName') || 'Guest';
+                    const cinStr = formData.get('checkIn');
+                    const coutStr = formData.get('checkOut');
+                    
+                    let totalNights = 0;
+                    if (cinStr && coutStr) {
+                        const cinParts = cinStr.split('/');
+                        const coutParts = coutStr.split('/');
+                        const d1 = new Date(cinParts[2], cinParts[1] - 1, cinParts[0]);
+                        const d2 = new Date(coutParts[2], coutParts[1] - 1, coutParts[0]);
+                        const diffTime = d2 - d1;
+                        totalNights = Math.max(1, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+                    }
+
+                    let totalAdults = 0;
+                    let totalChildren = 0;
+                    let numRooms = 0;
+                    
+                    roomsContainer.querySelectorAll('.room-entry').forEach(room => {
+                        numRooms++;
+                        totalAdults += parseInt(room.querySelector('.adults-select').value) || 0;
+                        totalChildren += parseInt(room.querySelector('.children-select').value) || 0;
+                    });
+
+                    const totalPeople = totalAdults + totalChildren;
+
+                    const confirmationMessage = `Dear ${custName},\nThank you for your enquiry.\nWe will get back to you with the details in sometime.\n\nYour enquiry summary is:\nDate: ${cinStr} to ${coutStr}\nTotal no of nights: ${totalNights}\nTotal No of rooms: ${numRooms}\nTotal number of people: ${totalPeople} (${totalAdults} Adults, ${totalChildren} Children)`;
+
+                    alert(confirmationMessage);
+
                     stayBookingForm.reset();
                     // Reset rooms UI back to 1 room
                     roomsContainer.innerHTML = '';
